@@ -72,8 +72,8 @@ Example Response (Illustrative):
 Clone the repository:
 
 ```bash
-git clone <repository-url>
-cd <repository-directory>
+git clone https://github.com/garzoglio/flight-search-mock-api
+cd flight-search-mock-api
 ```
 Install dependencies:
 
