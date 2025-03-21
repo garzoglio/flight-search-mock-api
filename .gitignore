@@ -1,0 +1,42 @@
+# Node
+.npm
+build/
+dist/**/*
+jspm_packages/
+node_modules
+node_modules/
+ts-built
+typings/
+
+# Terraform
+.terraform.lock.hcl
+*_override.tf
+*_override.tf.json
+*.tfstate
+*.tfstate.*
+**/.terraform/*
+override.tf
+override.tf.json
+
+# Miscellaneous
+.atom/
+.buildlog/
+.DS_Store
+.DS_Store
+.eslintcache
+.history
+.env
+.svn/
+*.class
+*.log
+*.pyc
+*.swp
+coverage
+coverage/
+Thumbs.db
+__pycache__/
+.venv/
+
+
+.vscode/
+application_default_credentials.json
