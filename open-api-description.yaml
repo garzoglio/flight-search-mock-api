@@ -1,0 +1,142 @@
+openapi: 3.0.2
+info:
+  title: Flight Search API
+  description: This API simulates searching for flights.
+  version: '1'
+servers:
+  - url: https://fligth-search-api-xxxxxxxxxxxx.us-central1.run.app
+paths:
+  /dialogflow/search_flights:
+    post:
+      summary: Search for flights based on provided criteria.
+      operationId: search_flights
+      parameters:
+        - name: sessionId
+          in: query
+          description: session id
+          required: true
+          schema:
+            $ref: '@dialogflow/sessionId'
+        - name: turnId
+          in: query
+          description: turn id
+          required: true
+          schema:
+            $ref: '@dialogflow/turnId'
+        - name: sequenceId
+          in: query
+          description: sequence id
+          required: true
+          schema:
+            $ref: '@dialogflow/sequenceId'
+      requestBody:
+        description: Flight search parameters
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlightSearchInput'
+      responses:
+        '200':
+          description: Successfully found flights.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlightSearchOutput'
+        '400':
+          description: Invalid input or missing parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorOutput'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorOutput'
+components:
+  schemas:
+    FlightSearchInput:
+      type: object
+      required:
+        - destination
+        - earliest_departure_date
+        - latest_departure_date
+        - num_adult_passengers
+        - origin
+      properties:
+        destination:
+          type: string
+          description: The destination city.
+          example: Las Vegas
+        earliest_departure_date:
+          type: string
+          format: date
+          description: The earliest departure date (YYYY-MM-DD).
+          example: 2024-06-01
+        latest_departure_date:
+          type: string
+          format: date
+          description: The latest departure date (YYYY-MM-DD).
+          example: 2024-06-07
+        num_adult_passengers:
+          type: integer
+          description: The number of adult passengers.
+          example: 1
+        origin:
+          type: string
+          description: The origin city.
+          example: New York
+    Flight:
+      type: object
+      properties:
+        flight_number:
+          type: string
+          description: The flight number.
+        origin:
+          type: string
+          description: The origin city.
+        destination:
+          type: string
+          description: The destination city.
+        departure_datetime:
+          type: string
+          format: date-time
+          description: The departure date and time in ISO 8601 format (UTC).
+        arrival_datetime:
+          type: string
+          format: date-time
+          description: The arrival date and time in ISO 8601 format (UTC).
+        price:
+          type: number
+          format: float
+          description: The price of the flight.
+        airline:
+          type: string
+          description: The airline operating the flight.
+        available_seats:
+          type: integer
+          description: The number of available seats.
+    FlightSearchOutput:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - SUCCESS
+            - ERROR
+        message:
+          type: string
+        flights:
+          type: array
+          items:
+            $ref: '#/components/schemas/Flight'
+    ErrorOutput:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - ERROR
+        message:
+          type: string
