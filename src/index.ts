@@ -82,72 +82,11 @@ const flightsData = [
 
 const flightsDatabase: Flight[] = flightsData;
 
-app.post('/search_flights', async (req: any, res: any, next: NextFunction) => {
-  try {
-    const searchParams: FlightSearchInput = req.body;
-
-    if (
-      !searchParams ||
-      !searchParams.destination ||
-      !searchParams.earliest_departure_date ||
-      !searchParams.latest_departure_date ||
-      !searchParams.num_adult_passengers ||
-      !searchParams.origin
-    ) {
-      return res.status(400).json({
-        status: 'ERROR',
-        message: 'Missing required search parameters',
-      });
-    }
-
-    console.log('Received flight search request:', searchParams);
-
-    // --- Simple filtering logic (can be expanded) ---
-    const earliestDate = new Date(searchParams.earliest_departure_date + 'T00:00:00Z');
-    const latestDate = new Date(searchParams.latest_departure_date + 'T23:59:59Z');
-
-    const filteredFlights = flightsDatabase.filter((flight: Flight) => {
-      const departureDate = new Date(flight.departure_datetime);
-      return (
-        flight.origin === searchParams.origin &&
-        flight.destination === searchParams.destination &&
-        departureDate >= earliestDate &&
-        departureDate <= latestDate &&
-        flight.available_seats >= searchParams.num_adult_passengers
-      );
-    });
-    // --- End simple filtering logic ---
-
-    // Simulate network delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
-    return res.status(200).json({
-      status: 'SUCCESS',
-      message: 'Flights found',
-      flights: filteredFlights,
-    });
-  } catch (error) {
-    console.error('Error processing flight search:', error);
-    return res.status(500).json({
-      status: 'ERROR',
-      message: 'Failed to process flight search',
-    });
-  }
-});
-
-// For DialogFlow integration, we need a specific endpoint
 app.post('/dialogflow/search_flights', async (req: any, res: any, next: NextFunction) => {
   try {
     const sessionId = req.query.sessionId;
     const turnId = req.query.turnId;
     const sequenceId = req.query.sequenceId;
-
-    if (!sessionId || !turnId || !sequenceId) {
-      return res.status(400).json({
-        status: 'ERROR',
-        message: 'Missing sessionId, turnId, or sequenceId in query parameters for DialogFlow integration.',
-      });
-    }
 
     console.log(`DialogFlow Request - SessionId: ${sessionId}, TurnId: ${turnId}, SequenceId: ${sequenceId}`);
 
@@ -211,6 +150,7 @@ app.post('/dialogflow/search_flights', async (req: any, res: any, next: NextFunc
     });
   }
 });
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

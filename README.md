@@ -115,10 +115,10 @@ Once deployed, you can test the API using curl. Replace <YOUR_CLOUDRUN_URL> with
 curl -X POST -H "Content-Type: application/json" -d '{
   "origin": "New York",
   "destination": "Las Vegas",
-  "earliest_departure_date": "2025-06-01",
-  "latest_departure_date": "2025-06-07",
+  "earliest_departure_date": "2024-06-01",
+  "latest_departure_date": "2024-06-07",
   "num_adult_passengers": 1
-}' https://<YOUR_CLOUDRUN_URL>/search_flights
+}' https://<YOUR_CLOUDRUN_URL>/dialogflow/search_flights
 ```
 
 **Running Locally (Optional)**
@@ -135,7 +135,7 @@ Run the server:
 npm start
 ```
 
-The API will be accessible at http://localhost:3001. You can then send requests to http://localhost:3001/search_flights.
+The API will be accessible at http://localhost:3001. You can then send requests to http://localhost:3001/dialogflow/search_flights.
 
 You can also use the just recipes for local development (if defined in your Justfile, e.g., just build-local, just run-local).
 
