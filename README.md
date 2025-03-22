@@ -6,7 +6,7 @@ This is a simple API that mocks the search of flights. It provides a basic inter
 
 This API exposes the following endpoint:
 
-### `POST /search_flights`
+### `POST /dialogflow/search_flights`
 
 Simulates a flight search based on the provided criteria.
 
@@ -135,7 +135,7 @@ Run the server:
 npm start
 ```
 
-The API will be accessible at http://localhost:3001. You can then send requests to http://localhost:3001/dialogflow/search_flights.
+The API will be accessible at http://localhost:3001 . You can then send requests to http://localhost:3001/dialogflow/search_flights .
 
 You can also use the just recipes for local development (if defined in your Justfile, e.g., just build-local, just run-local).
 
